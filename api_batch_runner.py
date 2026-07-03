@@ -29,7 +29,7 @@ DEFAULT_RUN_ARGS: list[str] = [
 ]
 
 # Paste your API key here (from /apikey in the bot), or use --api-key / NOMIX_API_KEY.
-API_KEY = "ZHq_HCE-ecpdaATfEWTKZI1-xCz_vtOW6KbFPmgR_fw      "
+API_KEY = ""
 
 
 def _headers(api_key: str) -> dict[str, str]:
