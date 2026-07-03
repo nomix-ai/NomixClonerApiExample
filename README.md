@@ -38,7 +38,10 @@ pip install -r requirements.txt
 
 ### Step 1 — Prepare your batch CSV
 
-Edit `api_batch_clones.csv`, or copy your batch CSV from the Telegram bot into this file. **Do not rename the file** — the script expects this exact name by default.
+- **Android:** edit `api_batch_clones.csv`
+- **iOS:** edit `api_batch_clones_ios.csv`
+
+Or copy your batch CSV from the Telegram bot into the matching file. **Do not rename the files** — the script picks the right one based on `--platform`.
 
 ### Step 2 — Add your API key
 
@@ -123,7 +126,7 @@ Delimiter: `;` or `,`.
 - `Location` — `latitude, longitude` or `0, 0` for no geolocation.
 - `Architecture` for Android: `armeabi-v7a`, `arm64-v8a`, `x86`, `x86-64`, `Any`.
 
-See `api_batch_clones.csv` for sample rows.
+See `api_batch_clones.csv` (Android) and `api_batch_clones_ios.csv` (iOS) for sample rows.
 
 ## Result
 
@@ -147,7 +150,7 @@ Each `download_url` is a direct link to download the cloned app.
 | Option | Default | Description |
 |--------|---------|-------------|
 | `--platform` | Android | `Android` or `iOS` |
-| `--csv` | `api_batch_clones.csv` | Path to your CSV file |
+| `--csv` | platform default | `api_batch_clones.csv` (Android) or `api_batch_clones_ios.csv` (iOS) |
 | `--poll-interval` | 15 | How often to check status (seconds) |
 | `--output-dir` | `results/` | Where to save the result file |
 | `--batch-uuid` | — | Wait for a batch that is already running |
@@ -176,5 +179,6 @@ python api_batch_runner.py --batch-uuid YOUR_BATCH_UUID
 | File | Purpose |
 |------|---------|
 | `api_batch_runner.py` | Main script — upload, wait, download |
-| `api_batch_clones.csv` | Your app list (edit this) |
+| `api_batch_clones.csv` | Android app list (edit this) |
+| `api_batch_clones_ios.csv` | iOS app list (edit this) |
 | `requirements.txt` | Python dependencies |

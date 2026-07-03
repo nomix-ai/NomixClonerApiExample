@@ -19,11 +19,16 @@ DEFAULT_BASE_URL = "https://check.nomixcloner.com"
 DEFAULT_POLL_INTERVAL_SECONDS = 15
 _SCRIPT_DIR = Path(__file__).resolve().parent
 DEFAULT_STATE_DIR = _SCRIPT_DIR / "results"
+DEFAULT_ANDROID_CSV = _SCRIPT_DIR / "api_batch_clones.csv"
+DEFAULT_IOS_CSV = _SCRIPT_DIR / "api_batch_clones_ios.csv"
 TERMINAL_STATUSES = {"completed", "failed"}
+
+
+def default_csv_for_platform(platform: str) -> Path:
+    return DEFAULT_IOS_CSV if platform == "iOS" else DEFAULT_ANDROID_CSV
 
 # Used when running from PyCharm without "Parameters" in Run Configuration.
 DEFAULT_RUN_ARGS: list[str] = [
-    "--csv", str(_SCRIPT_DIR / "api_batch_clones.csv"),
     "--platform", "Android",
     "--iterations", "1",
 ]
@@ -243,8 +248,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--csv",
         type=Path,
-        default=_SCRIPT_DIR / "api_batch_clones.csv",
-        help="Path to batch CSV file",
+        default=None,
+        help="Path to batch CSV file (default: api_batch_clones.csv or api_batch_clones_ios.csv)",
     )
     parser.add_argument(
         "--platform",
@@ -297,7 +302,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Continue with next iteration if a batch fails",
     )
-    return parser.parse_args(argv)
+    args = parser.parse_args(argv)
+    if args.csv is None:
+        args.csv = default_csv_for_platform(args.platform)
+    return args
 
 
 def _resolve_argv(argv: list[str] | None) -> list[str]:
